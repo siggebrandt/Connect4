@@ -16,12 +16,20 @@ body {
 }
 
 nav {
-    height: 33px;
-    background-color: #27272A;
+    height: 50px;
+    /* background-color: #27272A;
+    color: white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
 }
 
 main {
-    min-height: calc(100vh - 66px);
+    min-height: calc(100vh - 50px);
+    /* width: 1000px; */
+    margin: auto;
+    /* background-color: oldlace; */
 }
 
 .startScreen {
@@ -38,6 +46,7 @@ main {
 
 .startScreenH1 {
     grid-column-start: 2;
+    align-self: end;
 }
 
 #startScreenButtons {
@@ -48,6 +57,46 @@ main {
     gap: 40px;
 }
 
+
+/* GAME ACTIVE */
+
+.gameActiveScreen {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.player1Info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player2Info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.gameBoard {
+    width: 1000px;
+    /* margin: auto; */
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    background-color: #27272A;
+    border-radius: 20px;
+    gap: 5px;
+    border: 5px solid black;
+    /* border-top: 0; */
+}
+
+.square {
+    background-color: #e6e6e6;
+    border-radius: 50%;
+}
+
+/* 
 footer {
     height: 33px;
     position: relative;
@@ -56,4 +105,4 @@ footer {
     background-color: #27272A;
     color: white;
     text-align: right;
-}
+} */
