@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let main = document.querySelector("main");
 let scoreDiv = document.getElementById("score");
+let player1Score = 0;
+let player2Score = 0;
 
 function startScreen() {
     main.innerHTML = '';
@@ -28,7 +30,7 @@ function startScreen() {
 function startGame() {
     main.innerHTML = `
     <div class="player1Info">Player 1</div>
-    <div class="gameBoard"></div>
+    <div class="gameInfo"><div class="gameBoard"></div></div>
     <div class="player2Info">Player 2</div>`;
     main.className = 'gameActiveScreen';
 
@@ -49,7 +51,9 @@ function startGame() {
 
     for (let i = 1; i <= 2; i++) {
         let playerInfo = document.querySelector(`.player${i}Info`);
-        //playerInfo.innerHTML += `<button id="player${i}TurnButton">Ta tur</button>`;
+        let playerScore = document.createElement("p");
+        playerScore.textContent = "Poäng: " + 0;
+        playerInfo.appendChild(playerScore);
     }
 }
 

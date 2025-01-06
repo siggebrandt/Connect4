@@ -20,8 +20,9 @@ nav {
     /* background-color: #27272A;
     color: white; */
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 0 45px;
     border-bottom: 1px solid lightgray;
 }
 
@@ -77,9 +78,16 @@ main {
     align-items: center;
 }
 
+.gameInfo {
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
 
 .gameBoard {
-    width: 1000px;
+    width: 500px;
+    height: 500px;
     /* margin: auto; */
     display: grid;
     grid-template-columns: repeat(6, 1fr);
