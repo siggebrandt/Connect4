@@ -1,12 +1,76 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     startScreen();
-});
+});*/
 
 let main = document.querySelector("main");
-let scoreDiv = document.getElementById("score");
+
 let player1Score = 0;
 let player2Score = 0;
 
+function startScreen() {
+    main.innerHTML = "";
+
+    let startScreen = document.createElement("div");
+    startScreen.className = "startScreen";
+    main.appendChild(startScreen);
+
+    startScreen.innerHTML += `
+    <div id="startScreenText">
+        <h1>Welcome to the Connect Four Game!</h1>
+    </div>
+    <div id="startScreenButtons">
+        <button id="startGameButton">Starta Spelet</button>
+        <button id="resetScoreButton">Nollställ Poäng</button>
+    </div>`;
+}
+startScreen();
+
+function createGameBoard() {
+    main.innerHTML = "";
+
+    let gameScreen = document.createElement("div");
+    gameScreen.className = "gameScreen";
+    main.appendChild(gameScreen);
+
+    let gameBoard = document.createElement("div");
+    gameBoard.className = "gameBoard";
+    gameBoard.textContent = "gameBoard";
+    gameScreen.appendChild(gameBoard)
+
+    let gameInfo = document.createElement("div");
+    gameInfo.className = "gameInfo";
+    gameScreen.appendChild(gameInfo);
+
+    gameInfo.innerHTML += `
+    <div class="gameInfoActions" id="gameInfoQuit" title="Return to Start Menu"><img src="assets/close.png"></div>
+    <div class="gameInfoActions" id="gameInfoRestart" title="Restart Game"><img src="assets/restart.png"></div>
+    <div id="gameInfoCurrentAction">Current Action</div>
+    `;
+}
+
+function playerAction() { }
+
+function checkForWin() { }
+
+function endGame() { }
+
+function resetScore() { }
+
+
+document.getElementById("startGameButton").addEventListener("click", function () {
+    createGameBoard();
+});
+
+document.getElementById("resetScoreButton").addEventListener("click", function () {
+    resetScore();
+});
+
+
+// let main = document.querySelector("main");
+// let scoreDiv = document.getElementById("score");
+// let player1Score = 0;
+// let player2Score = 0;
+/*
 function startScreen() {
     main.innerHTML = '';
     main.className = "startScreen";
@@ -25,8 +89,8 @@ function startScreen() {
     document.getElementById("resetScoreButton").addEventListener("click", function () {
         resetScore();
     });
-}
-
+}*/
+/*
 function startGame() {
     main.innerHTML = `
     <div class="player1Info">Player 1</div>
@@ -71,3 +135,4 @@ function resetScore() { }
 
 function updateScore() { }
 
+*/
