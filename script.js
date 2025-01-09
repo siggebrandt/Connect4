@@ -4,6 +4,8 @@
 
 let main = document.querySelector("main");
 
+let currentPlayer = "player1";
+
 let player1Score = 0;
 let player2Score = 0;
 
@@ -48,17 +50,33 @@ function createGameBoard() {
     const rows = 6;
     const cols = 7;
 
-    for (let i = 0; i < rows * cols; i++) {
-        let gameBoardCell = document.createElement("div");
-        gameBoardCell.className = "gameBoardCell";
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            let gameBoardCell = document.createElement("div");
+            gameBoardCell.className = "gameBoardCell";
 
-        gameBoardCell.dataset.col = i % cols;
-        gameBoard.appendChild(gameBoardCell);
+            gameBoardCell.dataset.col = col;
+            gameBoardCell.dataset.row = row;
 
-        gameBoardCell.addEventListener("click", function () {
-            playerAction(gameBoardCell.dataset.col);
-        })
+            gameBoard.appendChild(gameBoardCell);
+
+            gameBoardCell.addEventListener("click", function (e) {
+                playerAction(e.target);
+            })
+        }
     }
+
+    // for (let i = 0; i < rows * cols; i++) {
+    //     let gameBoardCell = document.createElement("div");
+    //     gameBoardCell.className = "gameBoardCell";
+
+    //     gameBoardCell.dataset.col = i % cols;
+    //     gameBoard.appendChild(gameBoardCell);
+
+    //     gameBoardCell.addEventListener("click", function () {
+    //         playerAction(gameBoardCell.dataset.col);
+    //     })
+    // }
 
     let gameInfo = document.createElement("div");
     gameInfo.className = "gameInfo";
@@ -79,11 +97,30 @@ function createGameBoard() {
     });
 }
 
-function playerAction(column) {
-    let currentPlayer = "player1";
+function playerAction(cell) {
+    const col = cell.dataset.col;
+    const columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${col}"]`)
 
-    console.log("part of column: ", column);
-    // let columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${column}"]`);
+    console.log("Clicked on column: ", cell.dataset.col, ", ", "row: ", cell.dataset.row);
+
+    for (let i = columnCells.length - 1; i >= 0; i--) {
+        if (!columnCells[i].classList.contains("player1Disc") && !columnCells[i].classList.contains("player2Disc")) {
+            columnCells[i].classList.add(`${currentPlayer}Disc`);
+
+            // kolla för vinnare och uppdatera fältet för vems tur det är i hörnet
+
+
+            if (currentPlayer === "player1") {
+                currentPlayer = "player2";
+            } else {
+                currentPlayer = "player1";
+            }
+
+            return;
+        }
+    }
+
+    console.log("column is full");
 }
 
 function checkForWin() { }
