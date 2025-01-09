@@ -59,9 +59,9 @@ nav {
 /* GAME ACTIVE */
 
 .gameScreen {
-    width: 800px;
+    width: 700px;
     display: grid;
-    grid-template-columns: 7fr 3fr;
+    grid-template-columns: 550px 150px;
 }
 
 .gameBoard {}
@@ -69,7 +69,7 @@ nav {
 .gameInfo {
     border: solid 1px blueviolet;
     display: grid;
-    grid-template-rows: 55px 6fr 3fr;
+    grid-template-rows: 55px 6fr 4fr;
     grid-template-columns: repeat(4, 1fr);
     border-radius: 0px 20px 20px 0;
 }
@@ -131,19 +131,36 @@ nav {
 .gameBoard {
     /* width: 500px; */
     height: 500px;
+    padding: 10px;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 65px);
+    grid-template-rows: repeat(6, 65px);
+    align-content: center;
+    justify-content: center;
     background-color: #27272A;
+    background-color: #94afb6;
     border-radius: 20px 0px 0px 20px;
-    gap: 5px;
+    gap: 10px;
     border: 5px solid black;
     color: white;
 }
 
-.square {
-    background-color: #e6e6e6;
+.gameBoardCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    background-color: white;
+    border: 1px black ridge;
     border-radius: 50%;
+}
+
+.player1Disc {
+    background-color: red;
+}
+
+.player2Disc {
+    background-color: yellow;
 }
 
 /* 

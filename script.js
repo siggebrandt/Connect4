@@ -22,6 +22,15 @@ function startScreen() {
         <button id="startGameButton">Starta Spelet</button>
         <button id="resetScoreButton">Nollställ Poäng</button>
     </div>`;
+
+
+    document.getElementById("startGameButton").addEventListener("click", function () {
+        createGameBoard();
+    });
+
+    document.getElementById("resetScoreButton").addEventListener("click", function () {
+        resetScore();
+    });
 }
 startScreen();
 
@@ -34,8 +43,22 @@ function createGameBoard() {
 
     let gameBoard = document.createElement("div");
     gameBoard.className = "gameBoard";
-    gameBoard.textContent = "gameBoard";
     gameScreen.appendChild(gameBoard)
+
+    const rows = 6;
+    const cols = 7;
+
+    for (let i = 0; i < rows * cols; i++) {
+        let gameBoardCell = document.createElement("div");
+        gameBoardCell.className = "gameBoardCell";
+
+        gameBoardCell.dataset.col = i % cols;
+        gameBoard.appendChild(gameBoardCell);
+
+        gameBoardCell.addEventListener("click", function () {
+            playerAction(gameBoardCell.dataset.col);
+        })
+    }
 
     let gameInfo = document.createElement("div");
     gameInfo.className = "gameInfo";
@@ -46,9 +69,22 @@ function createGameBoard() {
     <div class="gameInfoActions" id="gameInfoRestart" title="Restart Game"><img src="assets/restart.png"></div>
     <div id="gameInfoCurrentAction">Current Action</div>
     `;
+
+    document.getElementById("gameInfoQuit").addEventListener("click", function () {
+        startScreen();
+    });
+
+    document.getElementById("gameInfoRestart").addEventListener("click", function () {
+        createGameBoard();
+    });
 }
 
-function playerAction() { }
+function playerAction(column) {
+    let currentPlayer = "player1";
+
+    console.log("part of column: ", column);
+    // let columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${column}"]`);
+}
 
 function checkForWin() { }
 
@@ -56,14 +92,6 @@ function endGame() { }
 
 function resetScore() { }
 
-
-document.getElementById("startGameButton").addEventListener("click", function () {
-    createGameBoard();
-});
-
-document.getElementById("resetScoreButton").addEventListener("click", function () {
-    resetScore();
-});
 
 
 // let main = document.querySelector("main");
