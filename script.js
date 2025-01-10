@@ -97,6 +97,13 @@ function createGameBoard() {
     });
 }
 
+function updateGameInfo(action) {
+    if (action == "update player") {
+        document.getElementById("gameInfoCurrentAction").innerHTML = `Current Player turn: ${currentPlayer}`;
+    }
+}
+updateGameInfo("update player")
+
 function playerAction(cell) {
     const col = cell.dataset.col;
     const columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${col}"]`)
@@ -107,7 +114,7 @@ function playerAction(cell) {
         if (!columnCells[i].classList.contains("player1Disc") && !columnCells[i].classList.contains("player2Disc")) {
             columnCells[i].classList.add(`${currentPlayer}Disc`);
 
-            // kolla för vinnare och uppdatera fältet för vems tur det är i hörnet
+            // kolla för vinnare här
 
 
             if (currentPlayer === "player1") {
@@ -115,7 +122,8 @@ function playerAction(cell) {
             } else {
                 currentPlayer = "player1";
             }
-
+            // uppdatera fältet för vems tur det är i hörnet här
+            updateGameInfo("update player");
             return;
         }
     }
@@ -123,11 +131,22 @@ function playerAction(cell) {
     console.log("column is full");
 }
 
-function checkForWin() { }
+function checkForWin() {
+    // måste kolla horisontiellt, vertikalt, diagonalt 2 olika riktiningar
 
-function endGame() { }
+}
 
-function resetScore() { }
+function endGame() {
+    // kallas på när checkforWIn är true
+}
+
+function resetScore() {
+    //nollställ poäng bara, kanske inte äns behövs helt ärligt
+}
+
+
+
+
 
 
 
