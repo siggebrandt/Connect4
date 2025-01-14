@@ -104,7 +104,8 @@ function playerAction(cell) {
         if (!columnCells[rowInColumn].classList.contains("player1Disc") && !columnCells[rowInColumn].classList.contains("player2Disc")) {
             columnCells[rowInColumn].classList.add(`${currentPlayer}Disc`);
 
-            if (checkForWin(cell.dataset.row, cell.dataset.col)) {
+            if (checkForWin(cell.dataset.row, cell.dataset.col, currentPlayer)) {
+                console.log("It's a win")
                 endGame();
                 return;
             };
@@ -125,14 +126,38 @@ function playerAction(cell) {
     document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full";
 }
 
-function checkForWin(row, col) {
+function checkForWin(row, col, player) {
     row = Number(row);
     col = Number(col);
 
     let horizontalCount = 1;
 
-    // måste kolla horisontiellt, vertikalt, diagonalt 2 olika riktiningar
+    // document.querySelector(`.gameBoardCell[data-col="${col}"][data-row="${row}"]`
 
+    function checkDirection(rowIncrement, colIncrement) {
+        let count = 1;
+        for (let i = 1; i < 4; i++) {
+            const nextRow = row + i * rowIncrement;
+            const nextCol = col + i * colIncrement;
+            if (nextRow >= 0 && nextRow < 6 && nextCol >= 0 && nextCol < 7 && document.querySelector(`.gameBoardCell[data-col="${nextRow}"][data-row="${nextCol}"]`).classList.contains(`${currentPlayer}Disc`)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        for (let i = -1; i > -4; i--) {
+            const nextRow = row + i * rowIncrement;
+            const nextCol = col + i * colIncrement;
+            if (nextRow >= 0 && nextRow < 6 && nextCol >= 0 && nextCol < 7 && document.querySelector(`.gameBoardCell[data-col="${nextRow}"][data-row="${nextCol}"]`).classList.contains(`${currentPlayer}Disc`)) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count >= 4;
+    }
+
+    return checkDirection(0, 1) || checkDirection(1, 0) || checkDirection(1, 1) || checkDirection(1, -1);
 }
 
 function endGame() {
