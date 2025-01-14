@@ -9,6 +9,8 @@ let currentPlayer = "player1";
 let player1Score = 0;
 let player2Score = 0;
 
+let gameBoard = [];
+
 function startScreen() {
     main.innerHTML = "";
 
@@ -25,7 +27,6 @@ function startScreen() {
         <button id="resetScoreButton">Nollställ Poäng</button>
     </div>`;
 
-
     document.getElementById("startGameButton").addEventListener("click", function () {
         createGameBoard();
     });
@@ -38,19 +39,22 @@ startScreen();
 
 function createGameBoard() {
     main.innerHTML = "";
+    currentPlayer = "player1"
+    gameBoard = [];
 
     let gameScreen = document.createElement("div");
     gameScreen.className = "gameScreen";
     main.appendChild(gameScreen);
 
-    let gameBoard = document.createElement("div");
-    gameBoard.className = "gameBoard";
-    gameScreen.appendChild(gameBoard)
+    let gameBoardDiv = document.createElement("div");
+    gameBoardDiv.className = "gameBoard";
+    gameScreen.appendChild(gameBoardDiv)
 
     const rows = 6;
     const cols = 7;
 
     for (let row = 0; row < rows; row++) {
+        gameBoard[row] = new Array(cols).fill(null);
         for (let col = 0; col < cols; col++) {
             let gameBoardCell = document.createElement("div");
             gameBoardCell.className = "gameBoardCell";
@@ -58,25 +62,13 @@ function createGameBoard() {
             gameBoardCell.dataset.col = col;
             gameBoardCell.dataset.row = row;
 
-            gameBoard.appendChild(gameBoardCell);
+            gameBoardDiv.appendChild(gameBoardCell);
 
             gameBoardCell.addEventListener("click", function (e) {
                 playerAction(e.target);
             })
         }
     }
-
-    // for (let i = 0; i < rows * cols; i++) {
-    //     let gameBoardCell = document.createElement("div");
-    //     gameBoardCell.className = "gameBoardCell";
-
-    //     gameBoardCell.dataset.col = i % cols;
-    //     gameBoard.appendChild(gameBoardCell);
-
-    //     gameBoardCell.addEventListener("click", function () {
-    //         playerAction(gameBoardCell.dataset.col);
-    //     })
-    // }
 
     let gameInfo = document.createElement("div");
     gameInfo.className = "gameInfo";
@@ -85,7 +77,7 @@ function createGameBoard() {
     gameInfo.innerHTML += `
     <div class="gameInfoActions" id="gameInfoQuit" title="Return to Start Menu"><img src="assets/close.png"></div>
     <div class="gameInfoActions" id="gameInfoRestart" title="Restart Game"><img src="assets/restart.png"></div>
-    <div id="gameInfoCurrentAction">Current Action</div>
+    <div id="gameInfoCurrentAction">${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn</div>
     `;
 
     document.getElementById("gameInfoQuit").addEventListener("click", function () {
@@ -99,20 +91,26 @@ function createGameBoard() {
 
 function updateGameInfo(action) {
     if (action == "update player") {
-        document.getElementById("gameInfoCurrentAction").innerHTML = `Current Player turn: ${currentPlayer}`;
+        document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn`;
     }
 }
-updateGameInfo("update player")
+// updateGameInfo("update player")
 
 function playerAction(cell) {
-    const col = cell.dataset.col;
+    const col = Number(cell.dataset.col);
+    console.log(gameBoard);
+
     const columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${col}"]`)
 
     console.log("Clicked on column: ", cell.dataset.col, ", ", "row: ", cell.dataset.row);
 
-    for (let i = columnCells.length - 1; i >= 0; i--) {
-        if (!columnCells[i].classList.contains("player1Disc") && !columnCells[i].classList.contains("player2Disc")) {
-            columnCells[i].classList.add(`${currentPlayer}Disc`);
+    for (let rowInColumn = columnCells.length - 1; rowInColumn >= 0; rowInColumn--) {
+        if (!columnCells[rowInColumn].classList.contains("player1Disc") && !columnCells[rowInColumn].classList.contains("player2Disc")) {
+            columnCells[rowInColumn].classList.add(`${currentPlayer}Disc`);
+            if (checkForWin(cell.dataset.row, cell.dataset.col)) {
+                endGame();
+                return;
+            };
 
             // kolla för vinnare här
 
@@ -127,11 +125,15 @@ function playerAction(cell) {
             return;
         }
     }
-
-    console.log("column is full");
+    document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full";
 }
 
-function checkForWin() {
+function checkForWin(row, col) {
+    row = Number(row);
+    col = Number(col);
+
+    let horizontalCount = 1;
+
     // måste kolla horisontiellt, vertikalt, diagonalt 2 olika riktiningar
 
 }
