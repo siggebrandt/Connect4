@@ -1,7 +1,3 @@
-/*document.addEventListener("DOMContentLoaded", function () {
-    startScreen();
-});*/
-
 const main = document.querySelector("main");
 
 let currentPlayer = "player1";
@@ -13,6 +9,7 @@ let gameOver = false;
 
 function startScreen() {
     main.innerHTML = "";
+    gameOver = true;
 
     let startScreen = document.createElement("div");
     startScreen.className = "startScreen";
@@ -23,8 +20,8 @@ function startScreen() {
         <h1>Welcome to the Connect Four Game!</h1>
     </div>
     <div id="startScreenButtons">
-        <button id="startGameButton">Starta Spelet</button>
-        <button id="resetScoreButton">Nollställ Poäng</button>
+        <button id="startGameButton">Play the game</button>
+        <button id="resetScoreButton">Reset Player Scores</button>
     </div>`;
 
     document.getElementById("startGameButton").addEventListener("click", function () {
@@ -45,6 +42,13 @@ function createGameBoard() {
     let gameScreen = document.createElement("div");
     gameScreen.className = "gameScreen";
     main.appendChild(gameScreen);
+
+    let gameActions = document.createElement("div");
+    gameActions.className = "gameActions";
+    gameActions.innerHTML = `
+    <div id="gameInfoQuit" title="Return to Start Menu"><img src="assets/close.png"></div>
+    <div id="gameInfoRestart" title="Restart Game"><img src="assets/restart.png"></div>`;
+    gameScreen.appendChild(gameActions);
 
     let gameBoard = document.createElement("div");
     gameBoard.className = "gameBoard";
@@ -70,15 +74,10 @@ function createGameBoard() {
         }
     }
 
-    let gameInfo = document.createElement("div");
-    gameInfo.className = "gameInfo";
-    gameScreen.appendChild(gameInfo);
-
-    gameInfo.innerHTML += `
-    <div class="gameInfoActions" id="gameInfoQuit" title="Return to Start Menu"><img src="assets/close.png"></div>
-    <div class="gameInfoActions" id="gameInfoRestart" title="Restart Game"><img src="assets/restart.png"></div>
-    <div id="gameInfoCurrentAction">${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn</div>
-    `;
+    let gameInfoText = document.createElement("div");
+    gameInfoText.className = "gameInfo";
+    gameInfoText.innerHTML += `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn`;
+    gameScreen.appendChild(gameInfoText);
 
     document.getElementById("gameInfoQuit").addEventListener("click", function () {
         startScreen();
@@ -90,7 +89,7 @@ function createGameBoard() {
 }
 
 function updateGameInfoText(text) {
-    document.getElementById("gameInfoCurrentAction").innerHTML = text;
+    document.querySelector(".gameInfo").innerHTML = text;
 }
 // updateGameInfo("update player")
 
@@ -122,7 +121,7 @@ function playerAction(cell) {
             return;
         }
     }
-    document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full";
+    updateGameInfoText(`${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full");
 }
 
 function checkForWin(row, col, currentPlayer) {

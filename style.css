@@ -1,3 +1,9 @@
+:root {
+    --player1: #f89c74;
+    --player2: #dcb0f2;
+    --black: #3D3D3D;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -11,15 +17,8 @@
 }
 
 body {
-    min-height: 100vh;
-    width: 100vw;
-}
-
-main {
-    min-height: calc(100vh - 50px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /* min-height: 100vh; */
+    /* width: 100vw; */
 }
 
 nav {
@@ -28,7 +27,32 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 0 45px;
+    margin: 0 8px;
     border-bottom: 1px solid lightgray;
+}
+
+#player1ScoreText {
+    border: 1px solid var(--black);
+    padding: 5px 7px;
+    background: var(--player1);
+}
+
+#player2ScoreText {
+    border: 1px solid var(--black);
+    padding: 5px 7px;
+    background: var(--player2);
+}
+
+#player2Score,
+#player1Score {
+    font-weight: 900;
+}
+
+main {
+    min-height: calc(100vh - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .startScreen {
@@ -39,8 +63,20 @@ nav {
     align-items: center;
 }
 
-#startScreenButtons button {
-    padding: 20px;
+h1 {
+    font-size: 41px;
+}
+
+button {
+    padding: 20px 25px;
+    border: none;
+    background-color: var(--black);
+    color: white;
+    border-radius: 14px;
+}
+
+button:hover {
+    background-color: #595959;
 }
 
 .startScreenText {
@@ -59,93 +95,26 @@ nav {
 /* GAME ACTIVE */
 
 .gameScreen {
-    width: 700px;
+    width: 600px;
+    height: 610px;
     display: grid;
-    grid-template-columns: 550px 150px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 500px 60px;
 }
 
-.gameBoard {}
-
-.gameInfo {
-    /* border: solid 1px blueviolet; */
-    display: grid;
-    grid-template-rows: 55px 6fr 4fr;
-    grid-template-columns: repeat(4, 1fr);
-    border-radius: 0px 20px 20px 0;
-}
-
-.gameInfoActions {
+.gameActions {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 0 15px;
     align-items: center;
 }
 
-.gameInfoActions img {
-    width: 45px;
+.gameActions img {
+    width: 30px;
 }
-
-#gameInfoQuit {
-    grid-column: 1 / 2;
-}
-
-#gameInfoRestart {
-    grid-column: 4 / 5;
-}
-
-#gameInfoCurrentAction {
-    grid-column: 1 / 5;
-    grid-row: 3 / 4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 5px solid black;
-    border-left: 0;
-}
-
-
-#player1ScoreText {
-    position: relative;
-}
-
-#player1ScoreText::before {
-    content: "";
-    background-color: hsla(196, 61%, 58%, .55);
-    position: absolute;
-    left: 0;
-    bottom: 0px;
-    width: 100%;
-    height: 50%;
-    z-index: -1;
-}
-
-/*
-
-.gameActiveScreen {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-}
-
-.player1Info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.player2Info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.gameInfo {
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-content: center;
-}*/
 
 .gameBoard {
-    /* width: 500px; */
+    width: 600px;
     height: 500px;
     padding: 10px;
     display: grid;
@@ -153,12 +122,10 @@ nav {
     grid-template-rows: repeat(6, 65px);
     align-content: center;
     justify-content: center;
-    /* background-color: #27272A; */
-    background-color: #94afb6;
     background-color: #b3b3b3;
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 22px;
     gap: 10px;
-    border: 5px solid black;
+    border: 5px solid #666666;
     color: white;
 }
 
@@ -166,19 +133,27 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
     background-color: white;
-    border: 1px black ridge;
+    border: 1px var(--black) ridge;
     border-radius: 50%;
 }
 
 .player1Disc {
-    background-color: #f89c74;
+    background-color: var(--player1);
 }
 
 .player2Disc {
-    background-color: #dcb0f2;
+    background-color: var(--player2);
 }
+
+.gameInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-align: center;
+}
+
 
 /* 
 footer {
