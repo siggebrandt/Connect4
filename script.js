@@ -123,6 +123,10 @@ function playerAction(cell) {
             if (checkForWin(columnCells[rowInColumn].dataset.row, columnCells[rowInColumn].dataset.col, currentPlayer)) {
                 return;
             };
+            if (isBoardFull()) {
+                endGame("tie");
+                return;
+            }
 
 
             if (currentPlayer === "player1") {
@@ -191,25 +195,24 @@ function updatePlayerScore() {
     document.getElementById("player2Score").innerHTML = player2Score;
 }
 
-function endGame(currentPlayer) {
+function endGame(result) {
     gameOver = true;
-    updateGameInfoText(`${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)} won!`);
-    if (currentPlayer === "player1") {
-        player1Score++;
 
-    } else {
-        player2Score++;
+    if (result === "tie") {
+        alert("It's a tie!");
     }
-    updatePlayerScore();
+    else {
+        alert(`${result.slice(0, 6)} ${result.slice(6)} won!`);
+        updateGameInfoText(`${result.slice(0, 6)} ${result.slice(6)} won!`);
 
-    setTimeout(function () {
-        let playAgain = confirm(currentPlayer + " won! Play again?");
-        if (playAgain) {
-            createGameBoard();
+        if (result === "player1") {
+            player1Score++;
+
         } else {
-            startScreen();
+            player2Score++;
         }
-    }, 500);
+        updatePlayerScore();
+    }
 }
 
 function resetScore() {
