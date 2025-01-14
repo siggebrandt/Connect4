@@ -9,8 +9,6 @@ let currentPlayer = "player1";
 let player1Score = 0;
 let player2Score = 0;
 
-let gameBoard = [];
-
 function startScreen() {
     main.innerHTML = "";
 
@@ -40,15 +38,14 @@ startScreen();
 function createGameBoard() {
     main.innerHTML = "";
     currentPlayer = "player1"
-    gameBoard = [];
 
     let gameScreen = document.createElement("div");
     gameScreen.className = "gameScreen";
     main.appendChild(gameScreen);
 
-    let gameBoardDiv = document.createElement("div");
-    gameBoardDiv.className = "gameBoard";
-    gameScreen.appendChild(gameBoardDiv)
+    let gameBoard = document.createElement("div");
+    gameBoard.className = "gameBoard";
+    gameScreen.appendChild(gameBoard)
 
     const rows = 6;
     const cols = 7;
@@ -62,7 +59,7 @@ function createGameBoard() {
             gameBoardCell.dataset.col = col;
             gameBoardCell.dataset.row = row;
 
-            gameBoardDiv.appendChild(gameBoardCell);
+            gameBoard.appendChild(gameBoardCell);
 
             gameBoardCell.addEventListener("click", function (e) {
                 playerAction(e.target);
@@ -98,7 +95,6 @@ function updateGameInfo(action) {
 
 function playerAction(cell) {
     const col = Number(cell.dataset.col);
-    console.log(gameBoard);
 
     const columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${col}"]`)
 
@@ -107,6 +103,7 @@ function playerAction(cell) {
     for (let rowInColumn = columnCells.length - 1; rowInColumn >= 0; rowInColumn--) {
         if (!columnCells[rowInColumn].classList.contains("player1Disc") && !columnCells[rowInColumn].classList.contains("player2Disc")) {
             columnCells[rowInColumn].classList.add(`${currentPlayer}Disc`);
+
             if (checkForWin(cell.dataset.row, cell.dataset.col)) {
                 endGame();
                 return;
