@@ -2,12 +2,14 @@
     startScreen();
 });*/
 
-let main = document.querySelector("main");
+const main = document.querySelector("main");
 
 let currentPlayer = "player1";
 
 let player1Score = 0;
 let player2Score = 0;
+
+let gameOver = false;
 
 function startScreen() {
     main.innerHTML = "";
@@ -36,6 +38,7 @@ function startScreen() {
 startScreen();
 
 function createGameBoard() {
+    gameOver = false;
     main.innerHTML = "";
     currentPlayer = "player1"
 
@@ -94,6 +97,8 @@ function updateGameInfo(action) {
 // updateGameInfo("update player")
 
 function playerAction(cell) {
+    if (gameOver) return;
+
     const col = Number(cell.dataset.col);
 
     const columnCells = document.querySelectorAll(`.gameBoardCell[data-col="${col}"]`)
@@ -104,11 +109,7 @@ function playerAction(cell) {
         if (!columnCells[rowInColumn].classList.contains("player1Disc") && !columnCells[rowInColumn].classList.contains("player2Disc")) {
             columnCells[rowInColumn].classList.add(`${currentPlayer}Disc`);
 
-            if (checkForWin(cell.dataset.row, cell.dataset.col, currentPlayer)) {
-                console.log("It's a win")
-                endGame();
-                return;
-            };
+            checkForWin(columnCells[rowInColumn].dataset.row, columnCells[rowInColumn].dataset.col);
 
             // kolla för vinnare här
 
@@ -126,29 +127,36 @@ function playerAction(cell) {
     document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full";
 }
 
-function checkForWin(row, col, player) {
+function checkForWin(row, col) {
     row = Number(row);
     col = Number(col);
 
-    let horizontalCount = 1;
-
-    // document.querySelector(`.gameBoardCell[data-col="${col}"][data-row="${row}"]`
+    function getCell(row, col) {
+        if (row >= 0 && row < 6 && col >= 0 && col < 7) {
+            return document.querySelector(`.gameBoardCell[data-col="${col}"][data-row="${row}"]`);
+        }
+        return null;
+    }
 
     function checkDirection(rowIncrement, colIncrement) {
         let count = 1;
+
         for (let i = 1; i < 4; i++) {
             const nextRow = row + i * rowIncrement;
             const nextCol = col + i * colIncrement;
-            if (nextRow >= 0 && nextRow < 6 && nextCol >= 0 && nextCol < 7 && document.querySelector(`.gameBoardCell[data-col="${nextRow}"][data-row="${nextCol}"]`).classList.contains(`${currentPlayer}Disc`)) {
+            const cell = getCell(nextRow, nextCol);
+            if (cell && cell.classList.contains(`${currentPlayer}Disc`)
+            ) {
                 count++;
             } else {
                 break;
             }
         }
-        for (let i = -1; i > -4; i--) {
-            const nextRow = row + i * rowIncrement;
-            const nextCol = col + i * colIncrement;
-            if (nextRow >= 0 && nextRow < 6 && nextCol >= 0 && nextCol < 7 && document.querySelector(`.gameBoardCell[data-col="${nextRow}"][data-row="${nextCol}"]`).classList.contains(`${currentPlayer}Disc`)) {
+        for (let i = 1; i < 4; i++) {
+            const nextRow = row - i * rowIncrement;
+            const nextCol = col - i * colIncrement;
+            const cell = getCell(nextRow, nextCol);
+            if (cell && cell.classList.contains(`${currentPlayer}Disc`)) {
                 count++;
             } else {
                 break;
@@ -157,15 +165,44 @@ function checkForWin(row, col, player) {
         return count >= 4;
     }
 
-    return checkDirection(0, 1) || checkDirection(1, 0) || checkDirection(1, 1) || checkDirection(1, -1);
+    if (
+        checkDirection(0, 1) ||
+        checkDirection(1, 0) ||
+        checkDirection(1, 1) ||
+        checkDirection(1, -1)
+    ) {
+        endGame();
+    }
+}
+
+function updatePlayerScore() {
+    document.getElementById("player1Score").innerHTML = player1Score;
+    document.getElementById("player2Score").innerHTML = player2Score;
 }
 
 function endGame() {
-    // kallas på när checkforWIn är true
+    gameOver = true;
+    if (currentPlayer === "player1") {
+        player1Score++;
+
+    } else {
+        player2Score++;
+    }
+    updatePlayerScore();
+
+    setTimeout(() => {
+        if (confirm(`${currentPlayer} vann! Spela igen?`)) {
+            createGameBoard();
+        } else {
+            startScreen();
+        }
+    }, 100); // Lite fördröjning för att spelaren ska se sista draget
 }
 
 function resetScore() {
-    //nollställ poäng bara, kanske inte äns behövs helt ärligt
+    player1Score = 0;
+    player2Score = 0;
+    updatePlayerScore();
 }
 
 
