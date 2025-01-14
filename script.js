@@ -89,10 +89,8 @@ function createGameBoard() {
     });
 }
 
-function updateGameInfo(action) {
-    if (action == "update player") {
-        document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn`;
-    }
+function updateGameInfoText(text) {
+    document.getElementById("gameInfoCurrentAction").innerHTML = text;
 }
 // updateGameInfo("update player")
 
@@ -109,9 +107,9 @@ function playerAction(cell) {
         if (!columnCells[rowInColumn].classList.contains("player1Disc") && !columnCells[rowInColumn].classList.contains("player2Disc")) {
             columnCells[rowInColumn].classList.add(`${currentPlayer}Disc`);
 
-            checkForWin(columnCells[rowInColumn].dataset.row, columnCells[rowInColumn].dataset.col);
-
-            // kolla för vinnare här
+            if (checkForWin(columnCells[rowInColumn].dataset.row, columnCells[rowInColumn].dataset.col, currentPlayer)) {
+                return;
+            };
 
 
             if (currentPlayer === "player1") {
@@ -120,14 +118,14 @@ function playerAction(cell) {
                 currentPlayer = "player1";
             }
             // uppdatera fältet för vems tur det är i hörnet här
-            updateGameInfo("update player");
+            updateGameInfoText(`${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn`);
             return;
         }
     }
     document.getElementById("gameInfoCurrentAction").innerHTML = `${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn` + "<br>the Column is full";
 }
 
-function checkForWin(row, col) {
+function checkForWin(row, col, currentPlayer) {
     row = Number(row);
     col = Number(col);
 
@@ -171,7 +169,8 @@ function checkForWin(row, col) {
         checkDirection(1, 1) ||
         checkDirection(1, -1)
     ) {
-        endGame();
+        endGame(currentPlayer);
+        return true;
     }
 }
 
@@ -180,8 +179,9 @@ function updatePlayerScore() {
     document.getElementById("player2Score").innerHTML = player2Score;
 }
 
-function endGame() {
+function endGame(currentPlayer) {
     gameOver = true;
+    updateGameInfoText(`${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)} won!`);
     if (currentPlayer === "player1") {
         player1Score++;
 
@@ -191,7 +191,7 @@ function endGame() {
     updatePlayerScore();
 
     setTimeout(() => {
-        if (confirm(`${currentPlayer} vann! Spela igen?`)) {
+        if (confirm(`${currentPlayer} won! play again?`)) {
             createGameBoard();
         } else {
             startScreen();
@@ -204,80 +204,3 @@ function resetScore() {
     player2Score = 0;
     updatePlayerScore();
 }
-
-
-
-
-
-
-
-// let main = document.querySelector("main");
-// let scoreDiv = document.getElementById("score");
-// let player1Score = 0;
-// let player2Score = 0;
-/*
-function startScreen() {
-    main.innerHTML = '';
-    main.className = "startScreen";
-
-    const startScreenH1 = document.createElement("h1");
-    startScreenH1.textContent = "Fyra i rad";
-    startScreenH1.className = "startScreenH1";
-    main.appendChild(startScreenH1);
-
-
-    main.innerHTML += `<div id="startScreenButtons"><button id="startGameButton">Starta Spelet</button> <button id="resetScoreButton">Nollställ poäng</button></div>`
-
-    document.getElementById("startGameButton").addEventListener("click", function () {
-        startGame();
-    });
-    document.getElementById("resetScoreButton").addEventListener("click", function () {
-        resetScore();
-    });
-}*/
-/*
-function startGame() {
-    main.innerHTML = `
-    <div class="player1Info">Player 1</div>
-    <div class="gameInfo"><div class="gameBoard"></div></div>
-    <div class="player2Info">Player 2</div>`;
-    main.className = 'gameActiveScreen';
-
-    let gameBoard = document.querySelector(".gameBoard")
-    let player1Info = document.querySelector(".playerOneInfo");
-    let player2Info = document.querySelector(".playerTwoInfo");
-
-    for (let i = 0; i < 42; i++) {
-        let square = document.createElement("div");
-        square.className = "square";
-        square.id = `square${i}`;
-        gameBoard.appendChild(square);
-
-        square.addEventListener("click", function () {
-            playerAction(square);
-        })
-    }
-
-    for (let i = 1; i <= 2; i++) {
-        let playerInfo = document.querySelector(`.player${i}Info`);
-        let playerScore = document.createElement("p");
-        playerScore.textContent = "Poäng: " + 0;
-        playerInfo.appendChild(playerScore);
-    }
-}
-
-function playerAction(element) {
-    let round = 1;
-    let player1Turn = true;
-    let player2Turn = true;
-
-    console.log(element);
-}
-
-function gameEnd() { }
-
-function resetScore() { }
-
-function updateScore() { }
-
-*/
