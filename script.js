@@ -22,6 +22,11 @@ function startScreen() {
     <div id="startScreenButtons">
         <button id="startGameButton">Play the game</button>
         <button id="resetScoreButton">Reset Player Scores</button>
+    </div>
+    <div id="startScreenLinks">
+        <a target="_blank" href="https://github.com/siggebrandt/Connect4">GitHub Repository</a>
+        <a target="_blank" href="https://webshare.mah.se/aq2697/Connect4">Website link (MAU WebShare)</a>
+        <a target="_blank" href="https://siggebrandt.github.io/Connect4">Website link (GitHub Pages)</a>
     </div>`;
 
     document.getElementById("startGameButton").addEventListener("click", function () {
@@ -91,7 +96,16 @@ function createGameBoard() {
 function updateGameInfoText(text) {
     document.querySelector(".gameInfo").innerHTML = text;
 }
-// updateGameInfo("update player")
+
+function isBoardFull() {
+    const allCells = document.querySelectorAll(".gameBoardCell");
+    for (let cell of allCells) {
+        if (!cell.classList.contains("player1Disc") && !cell.classList.contains("player2Disc")) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function playerAction(cell) {
     if (gameOver) return;
@@ -116,7 +130,6 @@ function playerAction(cell) {
             } else {
                 currentPlayer = "player1";
             }
-            // uppdatera fältet för vems tur det är i hörnet här
             updateGameInfoText(`${currentPlayer.slice(0, 6)} ${currentPlayer.slice(6)}'s turn`);
             return;
         }
@@ -189,13 +202,14 @@ function endGame(currentPlayer) {
     }
     updatePlayerScore();
 
-    setTimeout(() => {
-        if (confirm(`${currentPlayer} won! play again?`)) {
+    setTimeout(function () {
+        let playAgain = confirm(currentPlayer + " won! Play again?");
+        if (playAgain) {
             createGameBoard();
         } else {
             startScreen();
         }
-    }, 100); // Lite fördröjning för att spelaren ska se sista draget
+    }, 500);
 }
 
 function resetScore() {

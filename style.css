@@ -13,12 +13,7 @@
 
 @font-face {
     font-family: Shanti;
-    src: url(shanti.ttf);
-}
-
-body {
-    /* min-height: 100vh; */
-    /* width: 100vw; */
+    src: url(assets/shanti.ttf);
 }
 
 nav {
@@ -33,12 +28,14 @@ nav {
 
 #player1ScoreText {
     border: 1px solid var(--black);
+    border-radius: 4px;
     padding: 5px 7px;
     background: var(--player1);
 }
 
 #player2ScoreText {
     border: 1px solid var(--black);
+    border-radius: 4px;
     padding: 5px 7px;
     background: var(--player2);
 }
@@ -57,7 +54,7 @@ main {
 
 .startScreen {
     display: grid;
-    grid-template-rows: 1fr 25px 1fr;
+    grid-template-rows: 1fr 25px 1fr 15px 1fr;
     grid-template-columns: 1fr;
     text-align: center;
     align-items: center;
@@ -91,8 +88,24 @@ button:hover {
     gap: 40px;
 }
 
+#startScreenLinks {
+    grid-row-start: 5;
+    display: flex;
+    justify-content: space-around;
+}
 
-/* GAME ACTIVE */
+#startScreenLinks a {
+    color: white;
+    text-decoration: none;
+    border: 1px solid var(--black);
+    padding: 10px;
+    background: #A8B5E0;
+    border-radius: 5px;
+}
+
+#startScreenLinks a:hover {
+    background-color: #7d90d1;
+}
 
 .gameScreen {
     width: 600px;
@@ -153,15 +166,3 @@ button:hover {
     font-size: 20px;
     text-align: center;
 }
-
-
-/* 
-footer {
-    height: 33px;
-    position: relative;
-    width: 100%;
-    bottom: 0;
-    background-color: #27272A;
-    color: white;
-    text-align: right;
-} */
