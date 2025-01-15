@@ -1,0 +1,36 @@
+@media only screen and (max-width: 800px) {
+    h1 {
+        font-size: 31px;
+    }
+
+    #startScreenButtons {
+        align-self: center;
+    }
+
+    #startScreenLinks {
+        flex-direction: column;
+        gap: 10px;
+        margin: auto
+    }
+
+    .gameScreen {
+        width: 400px;
+        height: 410px;
+        grid-template-rows: 50px 300px 60px;
+    }
+
+    .gameActions img {
+        width: 25px;
+    }
+
+    .gameBoard {
+        width: 400px;
+        height: 300px;
+        grid-template-columns: repeat(7, 35px);
+        grid-template-rows: repeat(6, 35px);
+    }
+
+    .gameInfo {
+        font-size: 15px;
+    }
+}
